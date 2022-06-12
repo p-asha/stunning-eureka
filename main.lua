@@ -28,10 +28,10 @@ local Library = {
     HudRegistry = {};
 
     FontColor = Color3.fromRGB(255, 255, 255);
-    MainColor = Color3.fromRGB(28, 28, 28);
-    BackgroundColor = Color3.fromRGB(20, 20, 20);
-    AccentColor = Color3.fromRGB(0, 85, 255);
-    OutlineColor = Color3.fromRGB(50, 50, 50);
+    MainColor = Color3.fromRGB(22, 22, 22);
+    BackgroundColor = Color3.fromRGB(18, 18, 18);
+    AccentColor = Color3.fromRGB(255, 110, 110);
+    OutlineColor = Color3.fromRGB(35, 35, 35);
 
     Black = Color3.new(0, 0, 0);
 
@@ -128,7 +128,7 @@ end;
 function Library:AddToolTip(InfoStr, HoverInstance)
     local X, Y = Library:GetTextBounds(InfoStr, Enum.Font.Code, 14);
     local Tooltip = Library:Create('Frame', {
-        BackgroundColor3 = Library.MainColor,        
+        BackgroundColor3 = Library.MainColor,
         BorderColor3 = Library.OutlineColor,
 
         Size = UDim2.fromOffset(X + 5, Y + 4),
@@ -162,7 +162,7 @@ function Library:AddToolTip(InfoStr, HoverInstance)
     local IsHovering = false
     HoverInstance.MouseEnter:Connect(function()
         IsHovering = true
-        
+
         Tooltip.Position = UDim2.fromOffset(Mouse.X + 15, Mouse.Y + 12)
         Tooltip.Visible = true
 
@@ -228,7 +228,7 @@ end;
 function Library:GetDarkerColor(Color)
     local H, S, V = Color3.toHSV(Color);
     return Color3.fromHSV(H, S, V / 1.5);
-end; 
+end;
 Library.AccentColorDark = Library:GetDarkerColor(Library.AccentColor);
 
 function Library:AddToRegistry(Instance, Properties, IsHud)
@@ -479,7 +479,7 @@ do
             Position = UDim2.new(0.5, 2, 0, 228),
             Size = UDim2.new(0.5, -6, 0, 20),
             Parent = PickerFrameInner
-        })  
+        })
 
         local RgbBox = Library:Create(RgbBoxBase.Frame:FindFirstChild('TextBox'), {
             Text = '255, 255, 255',
@@ -519,7 +519,7 @@ do
             Rotation = 90;
             Parent = HueSelectorInner;
         });
-        
+
         HueBox.FocusLost:Connect(function(enter)
             if enter then
                 local success, result = pcall(Color3.fromHex, HueBox.Text)
@@ -820,13 +820,13 @@ do
 
             local YSize = 0
             local XSize = 0
-            
+
             for _, Label in next, Library.KeybindContainer:GetChildren() do
                 if Label:IsA('TextLabel') and Label.Visible then
                     YSize = YSize + 18;
                     if (Label.TextBounds.X > XSize) then
-                        XSize = Label.TextBounds.X 
-                    end 
+                        XSize = Label.TextBounds.X
+                    end
                 end;
             end;
 
@@ -1123,7 +1123,7 @@ do
             local SubButton = {}
 
             ButtonOuter.Size = UDim2.new(0.5, -2, 0, 20)
-            
+
             local Outer = ButtonOuter:Clone()
             local Inner = Outer.Frame;
             local Label = Inner:FindFirstChildWhichIsA('TextLabel')
@@ -1138,7 +1138,7 @@ do
                 BackgroundColor3 = 'MainColor';
                 BorderColor3 = 'OutlineColor';
             });
-    
+
             Library:OnHighlight(Outer, Outer,
                 { BorderColor3 = 'AccentColor' },
                 { BorderColor3 = 'Black' }
@@ -1168,7 +1168,7 @@ do
             end
 
             return SubButton
-        end 
+        end
 
         Groupbox:AddBlank(5);
         Groupbox:Resize();
@@ -1262,7 +1262,7 @@ do
             { BorderColor3 = 'Black' }
         );
 
-        if type(Info.Tooltip) == 'string' then 
+        if type(Info.Tooltip) == 'string' then
             Library:AddToolTip(Info.Tooltip, TextBoxOuter)
         end
 
@@ -1291,7 +1291,7 @@ do
 
             Position = UDim2.fromOffset(0, 0),
             Size = UDim2.fromScale(5, 1),
-            
+
             Font = Enum.Font.Code;
             PlaceholderColor3 = Color3.fromRGB(190, 190, 190);
             PlaceholderText = Info.Placeholder or '';
@@ -1305,7 +1305,7 @@ do
             ZIndex = 7;
             Parent = Container;
         });
-        
+
         function Textbox:SetValue(Text)
             if Info.MaxLength and #Text > Info.MaxLength then
                 Text = Text:sub(1, Info.MaxLength);
@@ -1313,13 +1313,13 @@ do
 
             if Textbox.Numeric then
                 if (not tonumber(Text)) and Text:len() > 0 then
-                    Text = Textbox.Value 
+                    Text = Textbox.Value
                 end
             end
 
             Textbox.Value = Text;
             Box.Text = Text;
-                
+
             if Textbox.Changed then
                 Textbox.Changed();
             end;
@@ -1328,11 +1328,11 @@ do
         if Textbox.Finished then
             Box.FocusLost:Connect(function(enter)
                 if not enter then return end
-                
+
                 Textbox:SetValue(Box.Text);
                 Library:AttemptSave();
             end)
-        else 
+        else
             Box:GetPropertyChangedSignal('Text'):Connect(function()
                 Textbox:SetValue(Box.Text);
                 Library:AttemptSave();
@@ -1356,7 +1356,7 @@ do
                     -- calculate pixel width of text from start to cursor
                     local subtext = string.sub(Box.Text, 1, cursor-1)
                     local width = TextService:GetTextSize(subtext, Box.TextSize, Box.Font, Vector2.new(math.huge, math.huge)).X
-                    
+
                     -- check if we're inside the box with the cursor
                     local currentCursorPos = Box.Position.X.Offset + width
 
@@ -1368,7 +1368,7 @@ do
                     end
                 end
             end
-        end 
+        end
 
         task.spawn(Update)
 
@@ -1838,7 +1838,7 @@ do
             BottomImage = 'rbxasset://textures/ui/Scroll/scroll-middle.png',
 
             ScrollBarThickness = 3,
-            ScrollBarImageColor3 = Library.AccentColor, 
+            ScrollBarImageColor3 = Library.AccentColor,
         });
 
         Library:AddToRegistry(Scrolling, {
@@ -2043,7 +2043,7 @@ do
 
             Dropdown:SetValues();
             Dropdown:Display();
-            
+
             if Dropdown.Changed then Dropdown.Changed() end
         end;
 
@@ -2222,7 +2222,7 @@ do
         Size = UDim2.new(1, 0, 0, 20);
         Position = UDim2.fromOffset(5, 2),
         TextXAlignment = Enum.TextXAlignment.Left,
-        
+
         Text = 'Keybinds';
         ZIndex = 104;
         Parent = KeybindInner;
@@ -2365,9 +2365,9 @@ function Library:CreateWindow(...)
         Config.Title = Arguments[1]
         Config.AutoShow = Arguments[2] or false;
     end
-    
+
     if type(Config.Title) ~= 'string' then Config.Title = 'No title' end
-    
+
     if typeof(Config.Position) ~= 'UDim2' then Config.Position = UDim2.fromOffset(175, 50) end
     if typeof(Config.Size) ~= 'UDim2' then Config.Size = UDim2.fromOffset(550, 600) end
 
