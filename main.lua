@@ -2900,7 +2900,7 @@ function Library:CreateWindow(...)
         Cursor.Filled = true;
 
         while Outer.Visible do
-            local mPos = workspace.CurrentCamera:WorldToViewportPoint(Mouse.Hit.p);
+            local mPos = workspace.CurrentCamera:WorldToViewportPoint(Mouse.Hit.Position);
 
             Cursor.Color = Library.AccentColor;
             Cursor.PointA = Vector2.new(mPos.X, mPos.Y);
